@@ -6,18 +6,21 @@ import Spinner from "../spinner";
 
 export default class ItemList extends Component {
 
-    swapiService = new SwapiService();
-
     state = {
-        peopleList: null,
+        itemList: null,
     };
 
     componentDidMount() {
-        this.swapiService
-            .getAllPeople()
-            .then((peopleList) => {
+
+        // получаем функцию (одну из 3 для получения списков)
+        // и затем используем ее для получения тех данных которые
+        // нужны родительскому компоненту обертке (например people-page)
+        const { getData } = this.props;
+
+        getData()
+            .then((itemList) => {
                 this.setState({
-                    peopleList,
+                    itemList,
                 });
             });
     }
@@ -36,11 +39,11 @@ export default class ItemList extends Component {
 
     render() {
 
-        const { peopleList } = this.state;
+        const { itemList } = this.state;
 
-        if (!peopleList) return <Spinner/>;
+        if (!itemList) return <Spinner/>;
 
-        const items = this.renderItems(peopleList);
+        const items = this.renderItems(itemList);
 
         return (
             <ul className="item-list list-group">
