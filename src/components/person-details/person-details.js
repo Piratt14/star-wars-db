@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './person-details.css';
 import SwapiService from "../../services/swapi-service";
 import Spinner from "../spinner";
+import ErrorButton from "../error-button";
 
 export default class PersonDetails extends Component {
 
@@ -89,6 +90,7 @@ const PersonDetailsView = ({ person }) => {
                         <span className="term">Eye Color</span>
                         <span>{eyeColor}</span>
                     </li>
+                    <ErrorButton/>
                 </ul>
             </div>
         </React.Fragment>
