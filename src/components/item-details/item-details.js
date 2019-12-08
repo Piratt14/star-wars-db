@@ -34,7 +34,9 @@ export default class ItemDetails extends Component {
         //  поля или свойства, иначе updatePerson() сам по себе будет вызывать
         //  изменение state, а то в свою очередь запускать componentDidUpdate()
         //  что приведет к бесконечному апдейту
-        if (this.props.itemId !== prevProps.itemId) {
+        if (this.props.itemId !== prevProps.itemId ||
+            this.props.getData !== prevProps.getData ||
+            this.props.getImageUrl !== prevProps.getImageUrl) {
             this.updateItem();
         }
     }
