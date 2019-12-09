@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import ErrorButton from "../error-button";
 import ErrorIndicator from "../error-indicator";
 import ErrorBoundary from "../error-boundary";
 
@@ -12,13 +11,14 @@ import DummySwapiService from "../../services/dummy-swapi-service";
 import {SwapiServiceProvider} from "../swapi-service-contest";
 
 import {PersonDetails, PersonList, PlanetDetails, PlanetList, StarshipDetails, StarshipList,} from '../sw-components';
+import Row from "../row";
 
 export default class App extends Component {
 
     state = {
         showRandomPlanet: true,
         hasError: false,
-        swapiService: new DummySwapiService(),
+        swapiService: new SwapiService(),
     };
 
     onServiceChange = () => {
@@ -29,14 +29,6 @@ export default class App extends Component {
                 swapiService: new Service()
             };
         })
-    };
-
-    toggleRandomPlanet = () => {
-        this.setState((state) => {
-            return {
-                showRandomPlanet: !state.showRandomPlanet,
-            }
-        });
     };
 
     componentDidCatch(error, errorInfo) {
@@ -58,26 +50,17 @@ export default class App extends Component {
                         <Header onServiceChange={this.onServiceChange}/>
                         { planet }
 
-                        <div className="row mb2 button-row">
-                            <button
-                                className="toggle-planet btn btn-warning btn-lg"
-                                onClick={this.toggleRandomPlanet}>
-                                Toggle Random Planet
-                            </button>
-                            <ErrorButton/>
-                        </div>
+                        <Row
+                            left={<PersonList />}
+                            right={<PersonDetails itemId={11} />} />
 
-                        <PersonDetails itemId={11} />
+                        <Row
+                            left={<PlanetList />}
+                            right={<PlanetDetails itemId={5} />} />
 
-                        <PlanetDetails itemId={5} />
-
-                        <StarshipDetails itemId={9} />
-
-                        <PersonList/>
-
-                        <StarshipList />
-
-                        <PlanetList />
+                        <Row
+                            left={<StarshipList />}
+                            right={<StarshipDetails itemId={9} />} />
 
                     </div>
                 </SwapiServiceProvider>
