@@ -54,7 +54,8 @@ export default class App extends Component {
                                    render={() => <h2>Welcome to StarDB</h2>}
                                    exact />
                             {/* exact служит для указания пути в точности, без отображения других частей приложения */}
-                            <Route path="/people" component={PeoplePage} />
+                            <Route path="/people/:id?" component={PeoplePage} />
+                            {/*  опциональный параметр - :id?   */}
                             <Route path="/planets" component={PlanetsPage} />
                             <Route path="/starships" exact component={StarshipsPage} />
                             <Route path="/starships/:id"
