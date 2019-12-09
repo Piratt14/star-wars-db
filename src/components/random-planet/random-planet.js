@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import SwapiService from "../../services/swapi-service";
 
@@ -32,7 +32,7 @@ export default class RandomPlanet extends Component {
         });
     };
 
-    onError = (err) => {
+    onError = () => {
         this.setState({
             error: true,
             loading: false,
@@ -80,7 +80,7 @@ const PlanetView = ({ planet }) => {
         <React.Fragment>
             <img className="planet-image"
                  src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-                 alt="planet picture"/>
+                 alt="planet pic"/>
             <div>
                 <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
