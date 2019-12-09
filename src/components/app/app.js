@@ -12,7 +12,7 @@ import {SwapiServiceProvider} from "../swapi-service-contest";
 import {LoginPage, PeoplePage, PlanetsPage, SecretPage, StarshipsPage} from "../pages";
 import {StarshipDetails} from "../sw-components";
 
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 
 export default class App extends Component {
 
@@ -59,27 +59,38 @@ export default class App extends Component {
 
                             <RandomPlanet />
 
-                            <Route path="/"
-                                   render={() => <h2>Welcome to StarDB</h2>}
-                                   exact />
-                            {/* exact служит для указания пути в точности, без отображения других частей приложения */}
-                            <Route path="/people/:id?" component={PeoplePage} />
-                            {/*  опциональный параметр - :id?   */}
-                            <Route path="/planets" component={PlanetsPage} />
-                            <Route path="/starships" exact component={StarshipsPage} />
-                            <Route path="/starships/:id"
-                                    render={({match, location, history}) => {
-                                        const { id } = match.params;
-                                        return <StarshipDetails itemId={id}/>;
-                                    }}/>
-                            <Route path="/login"
-                                    render={() =>
-                                        <LoginPage
-                                            isLoggedIn={isLoggedIn}
-                                            onLogin={this.onLogin}/>
-                                    }/>
-                            <Route path="/secret"
-                                   render={() => <SecretPage isLoggedIn={isLoggedIn}/> }/>
+                            {/*  Оборачиваем все пути в switch из react-router */}
+                            <Switch>
+                                <Route path="/"
+                                       render={() => <h2>Welcome to StarDB</h2>}
+                                       exact />
+                                {/* exact служит для указания пути в точности, без отображения других частей приложения */}
+                                <Route path="/people/:id?" component={PeoplePage} />
+                                {/*  опциональный параметр - :id?   */}
+                                <Route path="/planets" component={PlanetsPage} />
+                                <Route path="/starships" exact component={StarshipsPage} />
+                                <Route path="/starships/:id"
+                                        render={({match, location, history}) => {
+                                            const { id } = match.params;
+                                            return <StarshipDetails itemId={id}/>;
+                                        }}/>
+                                <Route path="/login"
+                                        render={() =>
+                                            <LoginPage
+                                                isLoggedIn={isLoggedIn}
+                                                onLogin={this.onLogin}/>
+                                        }/>
+                                <Route path="/secret"
+                                       render={() => <SecretPage isLoggedIn={isLoggedIn}/> }/>
+                                {/*  Если ни один route в switch не сработал, то сработает этот последний редирект  */}
+                                <Redirect to="/"/>
+                                {/*  ещё одна стратегия обработки несуществующих страниц это показ   */}
+                                {/*  страницы с ошибкой, например так примитивно как ниже в коде  */}
+                                {/*  если в роут не передать path, то он будет срабатывать всегда*/}
+                                {/*  а так как он стоит последний в switch то и срабатывать будет*/}
+                                {/*  когда все другие отказались работать  */}
+                                <Route render={() => <h2>Page not found</h2>} />
+                            </Switch>
 
                         </div>
                     </Router>
